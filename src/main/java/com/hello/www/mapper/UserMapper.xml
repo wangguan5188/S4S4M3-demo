@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hello.www.dao.UserDao">
+
+	<cache></cache>
+
+	<!-- 新增一条数据 -->
+	<insert id="addForMap" parameterType="map">
+		insert into navi_user(username, password) values(#{username}, #{password})
+	</insert>
+	
+	<!-- 删除一条数据 -->
+	<delete id="delete" parameterType="int">
+		delete from navi_user where id=#{id}
+	</delete>
+	
+	<!-- 修改一条数据 -->
+	<update id="updateForMap" parameterType="map">
+		update navi_user set(username=#{username}, password=#{password}) where id=#{id} 
+	</update>
+	
+	<!-- 根据用户名和密码查询 -->
+	<select id="queryByCondition" parameterType="map" resultType="map">
+		select * from navi_user where username=#{username} and password=#{password}
+	</select>
+	
+	<!-- 查询总条数 -->
+	<select id="selectTotalCount">
+		select count(*) from navi_user
+	</select>
+	
+	<!-- 查询用户列表（带分页） -->
+	<select id="queryPage" parameterType="map" resultType="map">
+		select * from navi_user limit #{pageFirst},#{pageSize}
+	</select>
+	
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans    
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd    
+    http://www.springframework.org/schema/jdbc 
+    http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd 
+    http://www.springframework.org/schema/tx    
+    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd   
+    http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<!-- 实例化占位符对象，加载数据库配置信息 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:db.properties</value>
+  		        <!-- <value>classpath*:log4j.properties</value> -->
+  		    </list>
+		</property>
+	</bean>
+
+	<!-- 配置数据源，并设置连接池 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<!-- 设置数据库连接参数 -->
+		<property name="jdbcUrl" value="${url}" />
+		<property name="driverClass" value="${driverClassName}" />
+		<property name="user" value="${username}" />
+		<property name="password" value="${password}" />
+		<!-- 设置连接池参数 -->
+		<property name="initialPoolSize" value="${initSize}" />
+		<property name="maxPoolSize" value="${maxSize}" />
+		<property name="minPoolSize" value="${minSize}" />
+		<property name="acquireIncrement" value="${increment}" />
+		<property name="maxIdleTime" value="${maxIdleTime}" />
+	</bean>
+	
+	<!-- 配置Jdbc模板  -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+</beans>
